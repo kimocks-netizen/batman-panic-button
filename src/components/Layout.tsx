@@ -31,7 +31,7 @@ export default function Layout() {
               </Link>
               <Link
                 to="/history"
-                className={`flex items-center justify-center px-3 py-1 sm:px-4 sm:py-2 rounded-md font-medium ${
+                className={`px-3 py-1 sm:px-4 sm:py-2 rounded-md font-medium ${
                   isActive('/history')
                     ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-600'
                     : 'text-white hover:bg-gray-700'
