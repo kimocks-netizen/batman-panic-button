@@ -35,7 +35,7 @@ export default function PanicButton() {
         });
       });
 
-      const response = await sendPanic({
+      await sendPanic({
         longitude: position.coords.longitude.toString(),
         latitude: position.coords.latitude.toString(),
         panic_type: selectedType,

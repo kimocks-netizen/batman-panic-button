@@ -24,7 +24,7 @@ const statusColors: Record<number, string> = {
 export default function HistoryPage() {
   const [panics, setPanics] = useState<Panic[]>([]);
   const [statusFilter, setStatusFilter] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
