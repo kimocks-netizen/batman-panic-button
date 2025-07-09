@@ -21,7 +21,7 @@ export default function Layout() {
             <div className="flex space-x-4">
               <Link
                 to="/"
-                className={`px-4 py-2 rounded-md font-medium ${
+                className={`px-3 py-1 sm:px-4 sm:py-2 rounded-md font-medium ${
                   isActive('/') 
                     ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-600'
                     : 'text-white hover:bg-gray-700'
@@ -31,7 +31,7 @@ export default function Layout() {
               </Link>
               <Link
                 to="/history"
-                className={`px-4 py-2 rounded-md font-medium ${
+                className={`px-3 py-1 sm:px-4 sm:py-2 rounded-md font-medium ${
                   isActive('/history')
                     ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-600'
                     : 'text-white hover:bg-gray-700'
@@ -41,7 +41,7 @@ export default function Layout() {
               </Link>
               <button
                 onClick={logout}
-                className="px-4 py-2 text-white bg-green-600 hover:bg-red-700 rounded-md font-medium"
+                className="px-3 py-1 sm:px-4 sm:py-2 text-white bg-green-600 hover:bg-red-700 rounded-md font-medium"
               >
                 Logout
               </button>
