@@ -71,7 +71,7 @@ export default function PanicButton() {
   };
 
   return (
-    <div className="space-y-4 p-4 bg-white rounded-lg shadow-md">
+   <div className="space-y-4 p-4 sm:p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-bold text-gray-800">SEND PANIC SIGNAL</h2>
       
       <div className="space-y-2">
