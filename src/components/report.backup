@@ -1,0 +1,203 @@
+// src/components/ReportGenerator.tsx
+import { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import type { Panic } from '../api/panic';
+import PanicTypePieChart from './PanicTypePieChart';
+import PanicStatusBarChart from './PanicStatusBarChart';
+
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+interface DangerZone {
+  center: [number, number];
+  radius: number;
+  panicCount: number;
+  types: string[];
+}
+
+export default function ReportGenerator({ panics }: { panics: Panic[] }) {
+  const reportRef = useRef<HTMLDivElement>(null);
+
+  // Calculate danger zones using clustering algorithm
+  const calculateDangerZones = (panics: Panic[]): DangerZone[] => {
+    if (panics.length === 0) return [];
+    
+    const locations = panics.map(p => ({
+      lat: parseFloat(p.latitude),
+      lng: parseFloat(p.longitude),
+      type: p.panic_type
+    }));
+
+    // Simple clustering - in a real app you might use a proper clustering library
+    const clusters: DangerZone[] = [];
+    const processed = new Set<number>();
+    const clusterDistance = 0.01; // ~1km in degrees
+
+    locations.forEach((loc, i) => {
+      if (processed.has(i)) return;
+
+      const nearby = locations
+        .map((l, idx) => ({ ...l, idx }))
+        .filter((l, idx) => {
+          const distance = Math.sqrt(
+            Math.pow(l.lat - loc.lat, 2) + 
+            Math.pow(l.lng - loc.lng, 2)
+          );
+          return distance < clusterDistance && !processed.has(idx);
+        });
+
+      if (nearby.length > 1) {
+        const avgLat = nearby.reduce((sum, l) => sum + l.lat, 0) / nearby.length;
+        const avgLng = nearby.reduce((sum, l) => sum + l.lng, 0) / nearby.length;
+        
+        const types = [...new Set(nearby.map(l => l.type))];
+        
+        clusters.push({
+          center: [avgLat, avgLng],
+          radius: clusterDistance,
+          panicCount: nearby.length,
+          types
+        });
+
+        nearby.forEach(l => processed.add(l.idx));
+      }
+    });
+
+    return clusters.sort((a, b) => b.panicCount - a.panicCount);
+  };
+
+  const dangerZones = calculateDangerZones(panics);
+
+  // Calculate statistics with proper typing
+  const totalPanics = panics.length;
+  const panicTypeCounts = panics.reduce((acc, panic) => {
+    const type = panic.panic_type || 'Unknown';
+    acc[type] = (acc[type] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const statusCounts = panics.reduce((acc, panic) => {
+    const status = panic.status.name;
+    acc[status] = (acc[status] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+    const handlePrint = useReactToPrint({
+    pageStyle: `
+        @page { size: A4; margin: 1cm; }
+        @media print {
+        body { color: black; background: white; }
+        .print-only { display: block; }
+        .no-print { display: none; }
+        .map-container { height: 400px !important; }
+        }
+    `,
+    });
+  return (
+    <div className="bg-white p-4 rounded-lg shadow h-full">
+      <h3 className="text-lg font-semibold mb-4">Generate Report</h3>
+      <button
+        onClick={handlePrint}
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors"
+      >
+        Generate PDF Report
+      </button>
+
+      <div ref={reportRef} className="hidden">
+        <div className="p-8">
+          <h1 className="text-2xl font-bold mb-2">Batman Panic System Report</h1>
+          <p className="text-gray-600 mb-8">Generated on {new Date().toLocaleDateString()}</p>
+          
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-4">Summary Statistics</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="border p-4 rounded">
+                <h3 className="font-medium">Total Panics</h3>
+                <p className="text-3xl font-bold">{totalPanics}</p>
+              </div>
+              <div className="border p-4 rounded">
+                <h3 className="font-medium">Emergency Types</h3>
+                <ul className="mt-2">
+                  {Object.entries(panicTypeCounts).map(([type, count]) => (
+                    <li key={type} className="flex justify-between">
+                      <span>{type}:</span> <span>{count}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="border p-4 rounded">
+                <h3 className="font-medium">Status Distribution</h3>
+                <ul className="mt-2">
+                  {Object.entries(statusCounts).map(([status, count]) => (
+                    <li key={status} className="flex justify-between">
+                      <span>{status}:</span> <span>{count}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {dangerZones.length > 0 && (
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold mb-4">Danger Zones</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {dangerZones.slice(0, 3).map((zone, i) => (
+                    <div key={i} className="border p-4 rounded bg-red-50">
+                      <h3 className="font-bold text-red-800">Hotspot #{i + 1}</h3>
+                      <p className="text-sm">
+                        <span className="font-semibold">Location:</span> {zone.center[0].toFixed(4)}, {zone.center[1].toFixed(4)}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-semibold">Radius:</span> ~1km
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-semibold">Panic Count:</span> {zone.panicCount}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-semibold">Common Types:</span> {zone.types.join(', ')}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <h2 className="text-xl font-semibold mb-4">Visualizations</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="h-64">
+                <PanicTypePieChart panics={panics} />
+              </div>
+              <div className="h-64">
+                <PanicStatusBarChart panics={panics} />
+              </div>
+            </div>
+
+            <h2 className="text-xl font-semibold mb-4">Recent Panics</h2>
+            <table className="min-w-full border">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border p-2 text-left">Type</th>
+                  <th className="border p-2 text-left">Details</th>
+                  <th className="border p-2 text-left">Location</th>
+                  <th className="border p-2 text-left">Date</th>
+                  <th className="border p-2 text-left">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {panics.slice(0, 10).map((panic) => (
+                  <tr key={panic.id}>
+                    <td className="border p-2">{panic.panic_type || 'Emergency'}</td>
+                    <td className="border p-2">{panic.details || '-'}</td>
+                    <td className="border p-2">{panic.latitude}, {panic.longitude}</td>
+                    <td className="border p-2">{new Date(panic.created_at).toLocaleString()}</td>
+                    <td className="border p-2">{panic.status.name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

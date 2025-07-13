@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getPanicHistory, cancelPanic } from '../api/panic';
 import { toast } from 'react-toastify';
+import PanicTypePieChart from '../components/PanicTypePieChart';
+import PanicStatusBarChart from '../components/PanicStatusBarChart';
+import ReportGenerator from '../components/ReportGenerator';
 
 type Panic = {
   id: number;
@@ -14,6 +17,7 @@ type Panic = {
     name: string;
   };
 };
+
 
 const statusColors: Record<number, string> = {
   1: 'bg-yellow-100 text-yellow-800', // In Progress
@@ -87,6 +91,7 @@ export default function HistoryPage() {
   const totalPages = Math.ceil(panics.length / itemsPerPage);
 
   return (
+    <>
     <div className="flex flex-col min-h-screen p-4">
       <div className="max-w-7xl w-full mx-auto bg-white rounded-xl shadow-xl overflow-hidden flex flex-col">
         <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-4 text-white">
@@ -206,8 +211,44 @@ export default function HistoryPage() {
               </div>
             )}
           </div>
+          
+        </div>
+      </div>
+    </div>  
+    <div className="flex flex-col h-auto min-h-screen w-full p-4 gap-4">
+    {/* Row 2 - Charts in 2 columns */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      {/* Emergency Types Pie Chart Card - Improved visibility */}
+      <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200 flex flex-col">
+        <div className="bg-gradient-to-r from-purple-600 to-purple-800 px-4 py-3 text-white">
+          <h2 className="text-base sm:text-lg md:text-xl font-bold">EMERGENCY TYPES</h2>
+        </div>
+        <div className="flex-1 p-4">
+          <PanicTypePieChart panics={panics} />
+        </div>
+      </div>
+
+      {/* Status Distribution Bar Chart Card */}
+      <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200 flex flex-col">
+        <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 px-4 py-3 text-white">
+          <h2 className="text-base sm:text-lg md:text-xl font-bold">STATUS DISTRIBUTION</h2>
+        </div>
+        <div className="flex-1 p-4">
+          <PanicStatusBarChart panics={panics} />
         </div>
       </div>
     </div>
+
+    {/* Row 3 - Report Generator */}
+    <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+      <div className="bg-gradient-to-r from-teal-600 to-teal-800 px-4 py-3 text-white">
+        <h2 className="text-base sm:text-lg md:text-xl font-bold">REPORT GENERATOR</h2>
+      </div>
+      <div className="p-4">
+        <ReportGenerator panics={panics} />
+      </div>
+    </div>
+  </div> 
+  </>
   );
 }

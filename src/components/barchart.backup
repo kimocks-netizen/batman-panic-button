@@ -1,0 +1,54 @@
+// src/components/PanicStatusBarChart.tsx
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import type { Panic } from '../api/panic';
+
+export default function PanicStatusBarChart({ panics }: { panics: Panic[] }) {
+  // Count statuses directly from the panics data
+  const inProgressCount = panics.filter(p => p.status.name === 'In progress').length;
+  const cancelledCount = panics.filter(p => p.status.name === 'Cancelled').length;
+
+  // Chart data - simple array with two bars
+  const chartData = [
+    {
+      name: 'In Progress',
+      value: inProgressCount,
+      fill: '#FFBB28' // yellow
+    },
+    {
+      name: 'Cancelled',
+      value: cancelledCount,
+      fill: '#FF8042' // orange
+    }
+  ];
+
+  return (
+    <div className="bg-white p-4 rounded-lg shadow h-full">
+      <h3 className="text-lg font-semibold mb-4">Panic Status Overview</h3>
+      <div className="h-64">
+        {panics.length > 0 ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              layout="vertical"
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <XAxis type="number" />
+              <YAxis dataKey="name" type="category" width={80} />
+              <Tooltip />
+              <Legend />
+              <Bar 
+                dataKey="value" 
+                name="Panic Count"
+                fill="#8884d8"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            No panic data available
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

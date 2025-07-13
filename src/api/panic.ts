@@ -1,10 +1,36 @@
 import api from './index';
 
+/** */
+// src/types/panic.ts
+export interface PanicStatus {
+  id: number;
+  name: string;
+}
+
+export interface Panic {
+  id: number;
+  longitude: string;
+  latitude: string;
+  panic_type: string;
+  details: string;
+  created_at: string;
+  status: PanicStatus;
+}
+
+export interface PanicResponse {
+  status: 'success' | 'error';
+  message: string;
+  data: {
+    panics?: Panic[];
+    panic_id?: number;
+  };
+}
+/***
 interface PanicResponse {
   status: 'success' | 'error';
   message: string;
   data: any;
-}
+} */
 
 interface PanicRequest {
   longitude: string;
@@ -17,12 +43,7 @@ export const sendPanic = async (data: PanicRequest): Promise<PanicResponse> => {
   const response = await api.post<PanicResponse>('/panic/send', data);
   return response.data;
 };
-/*export const cancelPanic = async (panicId: number): Promise<PanicResponse> => {
-  const response = await api.post<PanicResponse>('/panic/cancel', {
-    panic_id: panicId
-  });
-  return response.data;
-};*/
+
 export const cancelPanic = async (panicId: number) => {
   const response = await api.post('/panic/cancel', { panic_id: panicId });
   return response.data;
