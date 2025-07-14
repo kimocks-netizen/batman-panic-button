@@ -1,5 +1,5 @@
 // src/components/ReportGenerator.tsx
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js';
 import type { Panic } from '../api/panic';
 
@@ -16,20 +16,7 @@ interface DangerZone {
 
 export default function ReportGenerator({ panics }: ReportGeneratorProps) {
   const reportRef = useRef<HTMLDivElement>(null);
-
-  const handleDownloadPdf = () => {
-    if (reportRef.current) {
-      const opt = {
-        margin: 0.5, // Simplified margin like the working version
-        filename: 'batman-panic-report.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-      };
-
-      html2pdf().from(reportRef.current).set(opt).save();
-    }
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Calculate statistics
   const totalPanics = panics.length;
@@ -92,18 +79,26 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
   const reportDate = new Date().toLocaleDateString();
   const reportTime = new Date().toLocaleTimeString();
 
-  return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <button
-        onClick={handleDownloadPdf}
-        className="w-full py-3 px-4 rounded-lg text-white font-bold shadow-md transition-all
-          bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 transform hover:scale-[1.01]"
-      >
-        Download PDF Report
-      </button>
+  const handleDownloadPdf = () => {
+    if (reportRef.current) {
+      const opt = {
+        margin: 0.5,
+        filename: 'batman-panic-report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
 
-      {/* Printable content */}
-      <div ref={reportRef} className="p-6 bg-white rounded-lg">
+      html2pdf().from(reportRef.current).set(opt).save();
+    }
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const renderReportContent = () => {
+    return (
+      <>
         <div style={{ minHeight: '11in', position: 'relative' }}>
           <h1 className="text-2xl font-bold mb-2">Batman Panic System Report</h1>
           <p className="text-gray-600 mb-4">
@@ -127,7 +122,7 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
             <table className="w-full border-collapse">
               <tbody>
                 {Object.entries(emergencyTypeCounts)
-                  .sort((a, b) => b[1] - a[1]) // Sort by count descending
+                  .sort((a, b) => b[1] - a[1])
                   .map(([type, count]) => (
                     <tr key={type} className="border-b">
                       <td className="p-2 font-medium">{type}</td>
@@ -201,7 +196,58 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
             <p>Confidential - For authorized personnel only.</p>
           </div>
         </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="bg-white p-4 rounded-lg shadow">
+      <div className="flex gap-4">
+        <button
+          onClick={openModal}
+          className="flex-1 py-3 px-4 rounded-lg text-white font-bold shadow-md transition-all
+            bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 transform hover:scale-[1.01]"
+        >
+          View Report
+        </button>
+        <button
+          onClick={handleDownloadPdf}
+          className="flex-1 py-3 px-4 rounded-lg text-white font-bold shadow-md transition-all
+            bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 transform hover:scale-[1.01]"
+        >
+          Download PDF
+        </button>
       </div>
+
+      {/* Hidden printable content */}
+      <div ref={reportRef} className="p-6 bg-white rounded-lg">
+        {renderReportContent()}
+      </div>
+
+      {/* Modal dialog */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
+            <div className="p-6">
+              {renderReportContent()}
+            </div>
+            <div className="sticky bottom-0 bg-white border-t p-4 flex justify-end gap-3">
+              <button
+                onClick={closeModal}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDownloadPdf}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
+                Download PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
