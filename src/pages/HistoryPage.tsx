@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { getPanicHistory, cancelPanic } from '../api/panic';
 import { toast } from 'react-toastify';
 import PanicTypePieChart from '../components/PanicTypePieChart';
-import PanicStatusBarChart from '../components/PanicStatusBarChart';
 import ReportGenerator from '../components/ReportGenerator';
+import EmergencyTypeCounts from '../components/EmergencyTypeCounts';
 
 type Panic = {
   id: number;
@@ -218,7 +218,7 @@ return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Pie Chart */}
       <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200 flex flex-col">
-        <div className="bg-gradient-to-r from-purple-600 to-purple-800 px-4 py-3 text-white">
+        <div className="bg-gradient-to-r bg-yellow-500 text-gray-900 px-4 py-3 text-white">
           <h2 className="text-base sm:text-lg md:text-xl font-bold">EMERGENCY TYPES</h2>
         </div>
         <div className="flex-1 p-4">
@@ -229,17 +229,17 @@ return (
       {/* Bar Chart */}
       <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200 flex flex-col">
         <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 px-4 py-3 text-white">
-          <h2 className="text-base sm:text-lg md:text-xl font-bold">STATUS DISTRIBUTION</h2>
+          <h2 className="text-base sm:text-lg md:text-xl font-bold">EMERGENCY TYPES</h2>
         </div>
         <div className="flex-1 p-4">
-          <PanicStatusBarChart panics={panics} />
+            <EmergencyTypeCounts panics={panics} />
         </div>
       </div>
     </div>
 
     {/* Row 3 - Report Generator */}
     <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200">
-      <div className="bg-gradient-to-r from-teal-600 to-teal-800 px-4 py-3 text-white">
+      <div className="bg-gradient-to-r from-gray-700 to-gray-900 px-4 py-3 text-white">
         <h2 className="text-base sm:text-lg md:text-xl font-bold">REPORT GENERATOR</h2>
       </div>
       <div className="p-4">
