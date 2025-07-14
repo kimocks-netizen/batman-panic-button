@@ -178,7 +178,7 @@ return (
 
           {/* Pagination */}
           {panics.length > itemsPerPage && (
-            <div className="mt-4 py-4 flex justify-between items-center bg-white border-t border-gray-200">
+            <div className="mt-4 py-4 flex flex-wrap justify-between items-center bg-white border-t border-gray-200 gap-2">
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                 disabled={currentPage === 1}
@@ -186,7 +186,7 @@ return (
               >
                 Previous
               </button>
-              <div className="flex items-center gap-2">
+               <div className="flex flex-wrap justify-center gap-1 overflow-x-auto max-w-full">
                 {Array.from({ length: totalPages }, (_, i) => (
                   <button
                     key={i + 1}
