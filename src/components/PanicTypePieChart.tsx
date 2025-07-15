@@ -14,7 +14,6 @@ const COLORS = [
   '#ff6666', // Red
 ];
 
-
 interface PieChartData {
   name: string;
   value: number;

@@ -7,7 +7,7 @@ export default function Layout() {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
   return (
- <div className="flex flex-col h-screen">
+ <div className="flex flex-col flex-1">
       <nav className="bg-gradient-to-r from-gray-900 to-gray-800 shadow-lg">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
@@ -49,7 +49,7 @@ export default function Layout() {
           </div>
         </div>
       </nav>
-       <main className="flex-1 overflow-auto"> {/* Crucial for map */}
+       <main className="flex-1 overflow-y-auto sm:overflow-visible"> {/* Crucial for map */}
         <Outlet />
       </main>
     </div>

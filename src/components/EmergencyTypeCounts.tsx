@@ -11,16 +11,16 @@ export default function EmergencyTypeCounts({ panics }: { panics: Panic[] }) {
 
   return (
     <div className="bg-white p-4 rounded-lg shadow h-full">
-      <h3 className="text-lg font-semibold mb-4">Emergency Type Counts</h3>
+      <h3 className="text-lg font-semibold mb-4 text-black dark:text-black">Emergency Type Counts</h3>
       
       {Object.keys(panicTypeCounts).length > 0 ? (
         <table className="w-full">
           <tbody>
             {Object.entries(panicTypeCounts).map(([type, count]) => (
-              <tr key={type} className="border-b">
-                <td className="py-2 font-medium">{type}</td>
+              <tr key={type} className="border-b border-gray-100 text-sm font-medium text-gray-900 ">
+                <td className="py-2 font-medium text-black dark:text-black">{type}</td>
                 <td className="py-2 text-right">
-                  <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
+                  <span className="bg-gray-100 dark:bg-gray-100 px-3 py-1 rounded-full text-sm text-black dark:text-black">
                     {count} {count === 1 ? 'case' : 'cases'}
                   </span>
                 </td>

@@ -100,8 +100,8 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
     return (
       <>
         <div style={{ minHeight: '11in', position: 'relative' }}>
-          <h1 className="text-2xl font-bold mb-2">Batman Panic System Report</h1>
-          <p className="text-gray-600 mb-4">
+          <h1 className="text-2xl font-bold mb-2 text-black dark:text-black">Batman Panic System Report</h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
             Generated on {reportDate} at {reportTime}
           </p>
 
@@ -110,8 +110,8 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
             <h2 className="text-xl font-semibold mb-3">Summary</h2>
             <div className="grid grid-cols-1 gap-4 mb-4">
               <div className="border p-2 rounded">
-                <p className="font-medium">Total Panics</p>
-                <p className="text-xl font-bold">{totalPanics}</p>
+                <p className="font-medium text-black dark:text-black">Total Panics</p>
+                <p className="text-xl font-bold text-black dark:text-black">{totalPanics}</p>
               </div>
             </div>
           </div>
@@ -124,10 +124,10 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
                 {Object.entries(emergencyTypeCounts)
                   .sort((a, b) => b[1] - a[1])
                   .map(([type, count]) => (
-                    <tr key={type} className="border-b">
-                      <td className="p-2 font-medium">{type}</td>
+                    <tr key={type} className="border-b text-sm font-medium text-gray-900">
+                      <td className="p-2 font-medium text-black dark:text-black">{type}</td>
                       <td className="p-2 text-right">
-                        <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
+                        <span className="bg-gray-200 dark:bg-gray-200 px-3 py-1 rounded-full text-sm text-black">
                           {count} {count === 1 ? 'case' : 'cases'}
                         </span>
                       </td>
@@ -145,16 +145,16 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
                 {dangerZones.slice(0, 4).map((zone, i) => (
                   <div key={i} className="border p-4 rounded bg-red-50">
                     <h3 className="font-bold text-red-800">Hotspot #{i + 1}</h3>
-                    <p className="text-sm">
+                    <p className="text-sm text-black dark:text-black">
                       <span className="font-semibold">Location:</span> {zone.center[0].toFixed(4)}, {zone.center[1].toFixed(4)}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-black dark:text-black">
                       <span className="font-semibold">Panic Count:</span> {zone.panicCount}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-black dark:text-black">
                       <span className="font-semibold">Common Emergency Types:</span> {zone.types.join(', ')}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-black dark:text-black">
                       <span className="font-semibold">Radius:</span> ~1km
                     </p>
                   </div>
@@ -167,22 +167,22 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
           <h2 className="text-xl font-semibold mb-3">Recent Panics</h2>
           <table className="w-full border-collapse mb-6">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2 text-left">Type</th>
-                <th className="border p-2 text-left">Date/Time</th>
-                <th className="border p-2 text-left">Status</th>
-                <th className="border p-2 text-left">Location</th>
+              <tr className="bg-gray-100 dark:bg-gray-200">
+                <th className="border p-2 text-left text-black dark:text-black">Type</th>
+                <th className="border p-2 text-left text-black dark:text-black">Date/Time</th>
+                <th className="border p-2 text-left text-black dark:text-black">Status</th>
+                <th className="border p-2 text-left text-black dark:text-black">Location</th>
               </tr>
             </thead>
             <tbody>
               {panics.slice(0, 10).map((panic) => (
-                <tr key={panic.id} className="border-b">
-                  <td className="border p-2">{panic.panic_type || 'Emergency'}</td>
-                  <td className="border p-2">
+                <tr key={panic.id} className="border-b text-sm font-medium text-gray-900">
+                  <td className="border p-2 text-black dark:text-black">{panic.panic_type || 'Emergency'}</td>
+                  <td className="border p-2 text-black dark:text-black">
                     {new Date(panic.created_at).toLocaleString()}
                   </td>
-                  <td className="border p-2">{panic.status.name}</td>
-                  <td className="border p-2">
+                  <td className="border p-2 text-black dark:text-black">{panic.status.name}</td>
+                  <td className="border p-2 text-black dark:text-black">
                     {panic.latitude}, {panic.longitude}
                   </td>
                 </tr>
@@ -191,7 +191,7 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
           </table>
 
           {/* Footer */}
-          <div className="text-sm text-gray-500 mt-6">
+          <div className="text-sm text-gray-600 dark:text-gray-400 mt-6">
             <p>This report was automatically generated by the Batman Panic System.</p>
             <p>Confidential - For authorized personnel only.</p>
           </div>
@@ -202,7 +202,7 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
 
   return (
     <div className="bg-white p-4 rounded-lg shadow">
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <button
           onClick={openModal}
           className="flex-1 py-3 px-4 rounded-lg text-white font-bold shadow-md transition-all
@@ -227,7 +227,7 @@ export default function ReportGenerator({ panics }: ReportGeneratorProps) {
       {/* Modal dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
+          <div className="bg-white rounded-lg w-full sm:max-w-4xl max-h-[90vh] overflow-auto">
             <div className="p-6">
               {renderReportContent()}
             </div>
