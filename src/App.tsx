@@ -9,11 +9,13 @@ import DashboardPage from './pages/DashboardPage';
 import HistoryPage from './pages/HistoryPage';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
+import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   return (
+    <>
     <BrowserRouter>
       <div className="flex flex-col min-h-screen bg-gray-100">
         <ToastContainer position="top-right" />
@@ -31,6 +33,8 @@ function App() {
         {isAuthenticated && <Footer />}
       </div>
     </BrowserRouter>
+    <FloatingWhatsAppButton />
+    </>
   );
 }
 

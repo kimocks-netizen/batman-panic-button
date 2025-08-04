@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Button Embed Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .code-block {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+        .instructions {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <h1>WhatsApp Button Embed Code</h1>
+    
+    <div class="instructions">
+        <h3>📋 Instructions for Customers:</h3>
+        <ol>
+            <li>Copy the code below</li>
+            <li>Paste it into your website's HTML (before the closing &lt;/body&gt; tag)</li>
+            <li>The WhatsApp button will appear in the bottom-right corner of your website</li>
+            <li>Customize the phone number and message as needed</li>
+        </ol>
+    </div>
+
+    <h2>🔧 Embed Code:</h2>
+    <div class="code-block">
+        <pre><code>&lt;!-- WhatsApp Button Embed Code --&gt;
+&lt;style&gt;
+    .whatsapp-button {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        background-color: #25D366;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease-in-out;
+        animation: bounce-delay 4s infinite;
+    }
+
+    .whatsapp-button:hover {
+        background-color: #128C7E;
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .whatsapp-icon {
+        width: 25px;
+        height: 25px;
+        fill: currentColor;
+    }
+
+    @keyframes bounce-delay {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 768px) {
+        .whatsapp-button {
+            bottom: 16px;
+            right: 16px;
+            width: 56px;
+            height: 56px;
+        }
+        .whatsapp-icon {
+            width: 22px;
+            height: 22px;
+        }
+    }
+&lt;/style&gt;
+
+&lt;a href="https://wa.me/27676308447?text=Hello%20Autoline%20Panel%20Shop,%20My%20car%20got%20into%20accident%20i%20need%20to%20enquire%20about%20quotation.." 
+   target="_blank" 
+   rel="noopener noreferrer" 
+   class="whatsapp-button" 
+   aria-label="Chat on WhatsApp"&gt;
+    &lt;svg class="whatsapp-icon" viewBox="0 0 24 24"&gt;
+        &lt;path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/&gt;
+    &lt;/svg&gt;
+&lt;/a&gt;</code></pre>
+    </div>
+
+    <div class="highlight">
+        <h3>⚙️ Customization Options:</h3>
+        <ul>
+            <li><strong>Phone Number:</strong> Change "27676308447" to your WhatsApp number</li>
+            <li><strong>Message:</strong> Modify the text after "text=" in the URL</li>
+            <li><strong>Position:</strong> Adjust "bottom" and "right" values in CSS</li>
+            <li><strong>Size:</strong> Change "width" and "height" values</li>
+            <li><strong>Color:</strong> Modify "background-color" values</li>
+        </ul>
+    </div>
+
+    <div class="instructions">
+        <h3>📞 How to get your WhatsApp number:</h3>
+        <ol>
+            <li>Open WhatsApp on your phone</li>
+            <li>Go to Settings → Help → App info</li>
+            <li>Your number will be displayed (include country code, e.g., +27 for South Africa)</li>
+            <li>Remove the "+" when using in the code</li>
+        </ol>
+    </div>
+
+    <h2>🎯 Features:</h2>
+    <ul>
+        <li>✅ Responsive design (works on mobile and desktop)</li>
+        <li>✅ Smooth hover effects</li>
+        <li>✅ Bounce animation to attract attention</li>
+        <li>✅ High z-index to stay on top of other elements</li>
+        <li>✅ Opens WhatsApp in a new tab</li>
+        <li>✅ Accessible with proper aria-label</li>
+    </ul>
+</body>
+</html> 
