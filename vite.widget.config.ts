@@ -11,7 +11,7 @@ export default defineConfig({
       fileName: 'whatsapp-widget',
       formats: ['umd']
     },
-    outDir: 'widget-dist',
+    outDir: 'public/widget', // Output to public for easy serving
     rollupOptions: {
       external: ['react', 'react-dom/client', 'react-icons/fa'],
       output: {
@@ -22,5 +22,8 @@ export default defineConfig({
         }
       }
     }
+  },
+  server: {
+    port: 5173 // Developer port
   }
 });
