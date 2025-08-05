@@ -1,3 +1,4 @@
+import { createRoot } from 'react-dom/client';
 import { FaWhatsapp } from 'react-icons/fa';
 
 const FloatingWhatsAppButton = () => {
@@ -6,7 +7,18 @@ const FloatingWhatsAppButton = () => {
       href="https://wa.me/27676308447?text=Hello%20Autoline%20Panel%20Shop,%20My%20car%20got%20into%20accident%20i%20need%20to%20enquire%20about%20quotation.."
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition duration-300 ease-in-out animate-bounce-delay"
+      style={{
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        zIndex: 9999,
+        backgroundColor: '#25D366',
+        color: 'white',
+        padding: '12px',
+        borderRadius: '50%',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+        transition: 'background-color 0.3s ease-in-out'
+      }}
       aria-label="Chat on WhatsApp"
     >
       <FaWhatsapp size={25} />
@@ -14,4 +26,8 @@ const FloatingWhatsAppButton = () => {
   );
 };
 
-export default FloatingWhatsAppButton;
+// Create container and mount the component
+const container = document.createElement('div');
+document.body.appendChild(container);
+const root = createRoot(container);
+root.render(<FloatingWhatsAppButton />);

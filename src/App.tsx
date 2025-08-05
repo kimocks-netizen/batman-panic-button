@@ -9,7 +9,8 @@ import DashboardPage from './pages/DashboardPage';
 import HistoryPage from './pages/HistoryPage';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
-import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
+//import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
+import WhatsAppWidget from './widget/WhatsAppWidget';
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -33,7 +34,8 @@ function App() {
         {isAuthenticated && <Footer />}
       </div>
     </BrowserRouter>
-    <FloatingWhatsAppButton />
+    {/*<FloatingWhatsAppButton />*/}
+    <WhatsAppWidget/>
     </>
   );
 }

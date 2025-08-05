@@ -6,21 +6,21 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/widget.tsx'),
+      entry: path.resolve(__dirname, 'src/components/FloatingWhatsappButton.tsx'),
       name: 'WhatsAppWidget',
-      fileName: () => `whatsapp-widget.umd.js`,
-      formats: ['umd'],
+      fileName: 'whatsapp-widget',
+      formats: ['umd']
     },
-    outDir: 'widget-dist', // Separate folder for widget
+    outDir: 'widget-dist',
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom/client', 'react-icons/fa'],
       output: {
         globals: {
           react: 'React',
-          'react-dom': 'ReactDOM',
-        },
-      },
-    },
-    emptyOutDir: true,
-  },
+          'react-dom/client': 'ReactDOM',
+          'react-icons/fa': 'ReactIcons'
+        }
+      }
+    }
+  }
 });

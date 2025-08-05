@@ -1,5 +1,6 @@
 // src/widget.tsx
-//import React from 'react';
+//import React from 'react'; added in build
+
 import { createRoot } from 'react-dom/client';
 import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
 
