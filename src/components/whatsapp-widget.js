@@ -77,4 +77,4 @@
     if (window.whatsappWidgetConfig) {
       window.WhatsAppWidget.init();
     }
-  })();
+  })(); 
