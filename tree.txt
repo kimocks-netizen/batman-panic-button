@@ -1,22 +1,19 @@
 batman-panic-button/
 ├── public/
+│   ├── whatsapp-widget/        # Widget distribution files
+│   │   ├── whatsapp-widget.js  # The widget script
+│   │   └── whatsapp-widget.css # Optional styles (if needed)
 ├── src/
-│   ├── api/
-│   │   ├── auth.ts
-│   │   ├── panic.ts
-│   │   └── index.ts
 │   ├── components/
-│   │   ├── Layout.tsx
-│   │   ├── PanicButton.tsx
-│   │   └── ActivePanics.tsx
-│   ├── pages/
-│   │   ├── LoginPage.tsx
-│   │   ├── DashboardPage.tsx
-│   │   └── HistoryPage.tsx
-│   ├── store/
-│   │   └── authStore.ts
+│   │   ├── FloatingWhatsAppButton.tsx
 │   ├── App.tsx
 │   └── main.tsx
-├── .env
+├── widget/                <-- New folder for widget-specific files
+│   ├── widget.tsx         <-- Entry point for widget
+│   ├── widget.css         <-- Widget-specific styles
+├── index.html
+├── .package-lock.json
 ├── package.json
+├── tsconfig.app.json
+├── vercel.json
 └── vite.config.ts

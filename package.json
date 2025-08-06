@@ -5,10 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:widget": "vite build --config vite.widget.config.ts",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "vite preview --port 3000"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",

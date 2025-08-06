@@ -1,8 +1,10 @@
-// tailwind.config.js
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    // Add paths to your widget files
+    "./src/components/FloatingWhatsAppButton.tsx",
+    "./src/widget.tsx"
   ],
   theme: {
     extend: {
