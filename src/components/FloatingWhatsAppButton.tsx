@@ -1,9 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FaWhatsapp, FaTimes } from 'react-icons/fa';
 
-const FloatingWhatsAppButton = () => {
+interface FloatingWhatsAppButtonProps {
+  phoneNumber?: string;
+  defaultMessage?: string;
+  buttonColor?: string;
+  position?: 'left' | 'right';
+}
+
+const FloatingWhatsAppButton: React.FC<FloatingWhatsAppButtonProps> = ({ 
+  phoneNumber = '27676308447',
+  defaultMessage = 'Hello Autoline Panel Shop, My car got into accident i need to enquire about quotation..',
+  buttonColor = '#25D366',
+  position = 'right'
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [message, setMessage] = useState('Hello Autoline Panel Shop, My car got into accident i need to enquire about quotation..');
+  const [message, setMessage] = useState(defaultMessage);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -15,7 +27,7 @@ const FloatingWhatsAppButton = () => {
 
   const handleSendMessage = () => {
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/27676308447?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     handleCloseModal();
   };
@@ -25,7 +37,10 @@ const FloatingWhatsAppButton = () => {
       {/* Floating WhatsApp Button */}
       <button
         onClick={handleOpenModal}
-        className="fixed top-1/2 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition duration-300 ease-in-out animate-bounce-delay transform -translate-y-1/2"
+        className={`fixed top-1/2 z-50 text-white p-3 rounded-full shadow-lg transition duration-300 ease-in-out animate-bounce-delay transform -translate-y-1/2 ${
+          position === 'left' ? 'left-6' : 'right-6'
+        }`}
+        style={{ backgroundColor: buttonColor }}
         aria-label="Chat on WhatsApp"
       >
         <FaWhatsapp size={25} />

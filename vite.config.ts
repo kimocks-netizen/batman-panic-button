@@ -8,10 +8,16 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html')
+        main: resolve(__dirname, 'index.html'),
+        widget: resolve(__dirname, 'src/components/widget-entry.tsx')
       },
       output: {
-        entryFileNames: 'assets/[name]-[hash].js'
+        entryFileNames: (assetInfo) => {
+          return assetInfo.name === 'widget' 
+            ? 'widget-dist/whatsapp-widget/[name].js' 
+            : 'assets/[name]-[hash].js'
+        },
+        assetFileNames: 'widget-dist/whatsapp-widget/[name].[ext]'
       }
     }
   }
